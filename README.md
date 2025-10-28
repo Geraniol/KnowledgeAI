@@ -13,12 +13,11 @@ This repository contains the implementation of KnowledgeAI, a trustworthy HCAI c
 
 # Usage
 1. Install [Python](https://www.python.org/) 3.12 or higher.
-2. Apply a [GoogleAI API key](https://aistudio.google.com/api-keys).
-3. Clone this repository:
+2. Clone this repository:
    ```
    git clone https://github.com/Geraniol/KnowledgeAI.git
    ```
-4. Create and activate a virtual environment (optional but recommended):
+3. Create and activate a virtual environment (optional but recommended):
    ```
    python -m venv venv
    ```
@@ -30,6 +29,7 @@ This repository contains the implementation of KnowledgeAI, a trustworthy HCAI c
    ```
    venv\Scripts\activate
    ```
+4. Add your [GoogleAI API key](https://aistudio.google.com/api-keys) to `API_Key.txt` file in the root directory.
 5. Install the required packages:
    ```bash
    pip install -r requirements.txt
