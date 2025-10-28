@@ -40,4 +40,4 @@ This repository contains the implementation of KnowledgeAI, a trustworthy HCAI c
    ```
 7. Check the output in the `example/` folder.
    - `output.html`: Formatted HTML output.
-   - `output.json`: Raw JSON output.
+   - `response.json`: JSON file containing detailed response data.
