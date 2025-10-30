@@ -11,10 +11,14 @@ class KnowledgeAI:
 
     def _ask(self, prompt: str):
         print(f"Asking... Prompt length: {len(prompt)}")
-        response = self.model.models.generate_content(
-            model="gemini-2.5-flash",
-            contents=prompt,
-        )
+        try:
+            response = self.model.models.generate_content(
+                model="gemini-2.5-flash",
+                contents=prompt,
+            )
+        except Exception as e:
+            print(f"Error during API call: {e}")
+            return ""
         return str(getattr(response, "text", "") or "")
 
     def clarify_and_decompose(self, message: dict):
@@ -161,10 +165,11 @@ class KnowledgeAI:
     def ask(self, question: str, save_path: Path = Path("output.json")):
         message = {"question": question}
         message["clarify_and_decompose"] = self.clarify_and_decompose(message)
-        message["search_and_verify"] = self.search_and_verify(message)
-        message["analyze_and_reason"] = self.analyze_and_reason(message)
-        message["reflect_and_evaluate"] = self.reflect_and_evaluate(message)
-        message["synthesize_and_communicate"] = self.synthesize_and_communicate(message)
+        message["search_and_verify"] = self.search_and_verify(message) if message["clarify_and_decompose"] else ""
+        message["analyze_and_reason"] = self.analyze_and_reason(message) if message["search_and_verify"] else ""
+        message["reflect_and_evaluate"] = self.reflect_and_evaluate(message) if message["analyze_and_reason"] else ""
+        message["synthesize_and_communicate"] = self.synthesize_and_communicate(message) if message["reflect_and_evaluate"] else ""
+        print("Final synthesis completed.") if message["synthesize_and_communicate"] else print("No synthesis generated.")
 
         save_path.write_text(json.dumps(message, indent=4, ensure_ascii=False))
         self.visualize_process(message, save_path=Path("output.html"))
