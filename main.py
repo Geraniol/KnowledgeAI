@@ -9,7 +9,7 @@ class KnowledgeAI:
         self.api_key = api_key
         self.model = genai.Client(api_key=self.api_key)
 
-    def _ask(self, prompt: str):
+    def _ask(self, prompt: str):  # Internal method to send prompt to the model
         print(f"Asking... Prompt length: {len(prompt)}")
         try:
             response = self.model.models.generate_content(
@@ -21,7 +21,7 @@ class KnowledgeAI:
             return ""
         return str(getattr(response, "text", "") or "")
 
-    def clarify_and_decompose(self, message: dict):
+    def clarify_and_decompose(self, message: dict): # Agent: Clarify and Decompose
         prompt = f"""
         You are an analytical expert specialized in clarifying and deconstructing questions.
 
@@ -47,7 +47,7 @@ class KnowledgeAI:
 
         return self._ask(prompt)
 
-    def search_and_verify(self, message: dict):
+    def search_and_verify(self, message: dict): # Agent: Search and Verify
         prompt = f"""
         You are an expert in research, information verification, and evidence assessment.
 
@@ -73,7 +73,7 @@ class KnowledgeAI:
 
         return self._ask(prompt)
 
-    def analyze_and_reason(self, message: dict):
+    def analyze_and_reason(self, message: dict): # Agent: Analyze and Reason
         prompt = f"""
         You are a reasoning and analytical expert.
 
@@ -99,7 +99,7 @@ class KnowledgeAI:
 
         return self._ask(prompt)
 
-    def reflect_and_evaluate(self, message: dict):
+    def reflect_and_evaluate(self, message: dict): # Agent: Reflect and Evaluate
         prompt = f"""
         You are an expert in reflective and ethical evaluation.
 
@@ -125,7 +125,7 @@ class KnowledgeAI:
 
         return self._ask(prompt)
 
-    def synthesize_and_communicate(self, message: dict):
+    def synthesize_and_communicate(self, message: dict): # Agent: Synthesize and Communicate
         prompt = f"""
         You are an expert communicator and synthesizer of complex reasoning.
 
@@ -150,7 +150,7 @@ class KnowledgeAI:
 
         return self._ask(prompt)
 
-    def visualize_process(self, message: dict, save_path: Path = Path("output.html")):
+    def visualize_process(self, message: dict, save_path: Path = Path("output.html")): # Visualize the reasoning process
         html_template_path = Path("template.html")
         html_template = html_template_path.read_text()
         content = html_template\
@@ -162,7 +162,7 @@ class KnowledgeAI:
             .replace("{{synthesize_and_communicate}}", message["synthesize_and_communicate"])
         save_path.write_text(content)
 
-    def ask(self, question: str, save_path: Path = Path("output.json")):
+    def ask(self, question: str, save_path: Path = Path("output.json")): # Main method to process the question through all agents
         message = {"question": question}
         message["clarify_and_decompose"] = self.clarify_and_decompose(message)
         message["search_and_verify"] = self.search_and_verify(message) if message["clarify_and_decompose"] else ""
